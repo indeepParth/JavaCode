@@ -1,3 +1,10 @@
+import { Contract } from './node_modules/web3';
+// import { contract } from '../../node_modules/web3/lib/commonjs/eth.exports';
+// import { createRequire } from 'module';
+// const require = createRequire(import.meta.url);
+// const Web3 = require('web3');
+// const web3 = new Web3(window.ethereum);
+
 document.addEventListener("DOMContentLoaded", loadApp());
 
 async function loadApp()
@@ -89,6 +96,16 @@ async function signMessage(wallet, token, amount, id, verifyContact, chainIdd) {
     }
 }
 
+async function ReadContractMethods()
+{
+    let mycont = new Contract(myAbi, myContractAddress).methods.symbol().call({ from: myContractAddress });
+    // mycont.method.symbol().call();
+
+    // var web3 = new Web3(window.ethereum);
+    // var mycontract = new web3.eth.Contract(JSON.stringify(abi), address); // add your alreay defined abi and address in Contract(abi, address)
+    console.log(mycont);
+}
+
 function processAction(accounts) {
     // ?action=sign&token=0x578FEE9DEF9a270C20865242CfD4ff86f31d0e5B&amount=1&gameid=500&verifyContact=0x3d28c98ae7092eaca8ea2fe145e210773affb686&chainId=137
     const urlParams = new URL(window.location.toLocaleString()).searchParams;
@@ -111,7 +128,15 @@ function processAction(accounts) {
     const types = urlParams.get("types") || undefined;
 
     if (action == "sign" && token && amount && gameid && verifyContact && chainId) {
-        console.log("signMessage");
+        console.log("action signMessage");
         return signMessage(accounts, token, amount, gameid, verifyContact, chainId);
     }
+    
+    if (action == "read") {
+        console.log("action read");
+        ReadContractMethods();
+    }
 }
+
+const myAbi = "{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}";
+const myContractAddress = "0x578FEE9DEF9a270C20865242CfD4ff86f31d0e5B";
