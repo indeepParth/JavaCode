@@ -1,0 +1,12 @@
+{
+    "name": "JavaCode",
+    "description": "",
+    "authors": "indeep",
+    "version": "1.0.0",
+    "main": "index.html",
+    "scripts": {},
+    "dependencies": {
+        "ethers": "^6.6.1",
+        "web3": "^4.0.1"
+    }
+}
